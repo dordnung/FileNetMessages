@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileNetMessages", "FileNetMessages.vcxproj", "{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release - CS GO|Win32 = Release - CS GO|Win32
+		Release - CSS|Win32 = Release - CSS|Win32
+		Release - Day of Defeat Source|Win32 = Release - Day of Defeat Source|Win32
+		Release - Episode 1|Win32 = Release - Episode 1|Win32
+		Release - Half Life 2 DM|Win32 = Release - Half Life 2 DM|Win32
+		Release - Left 4 Dead 2|Win32 = Release - Left 4 Dead 2|Win32
+		Release - Left 4 Dead|Win32 = Release - Left 4 Dead|Win32
+		Release - Orange Box|Win32 = Release - Orange Box|Win32
+		Release - Orangebox Valve|Win32 = Release - Orangebox Valve|Win32
+		Release - Team Fortress 2|Win32 = Release - Team Fortress 2|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - CS GO|Win32.ActiveCfg = Release - CS GO|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - CS GO|Win32.Build.0 = Release - CS GO|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - CSS|Win32.ActiveCfg = Release - CSS|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - CSS|Win32.Build.0 = Release - CSS|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Day of Defeat Source|Win32.ActiveCfg = Release - Day of Defeat Source|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Day of Defeat Source|Win32.Build.0 = Release - Day of Defeat Source|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Episode 1|Win32.ActiveCfg = Release - Episode 1|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Episode 1|Win32.Build.0 = Release - Episode 1|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Half Life 2 DM|Win32.ActiveCfg = Release - Half Life 2 DM|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Half Life 2 DM|Win32.Build.0 = Release - Half Life 2 DM|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Left 4 Dead 2|Win32.ActiveCfg = Release - Left 4 Dead 2|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Left 4 Dead 2|Win32.Build.0 = Release - Left 4 Dead 2|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Left 4 Dead|Win32.ActiveCfg = Release - Left 4 Dead|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Left 4 Dead|Win32.Build.0 = Release - Left 4 Dead|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Orange Box|Win32.ActiveCfg = Release - Orange Box|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Orange Box|Win32.Build.0 = Release - Orange Box|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Orangebox Valve|Win32.ActiveCfg = Release - Orangebox Valve|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Orangebox Valve|Win32.Build.0 = Release - Orangebox Valve|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Team Fortress 2|Win32.ActiveCfg = Release - Team Fortress 2|Win32
+		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Team Fortress 2|Win32.Build.0 = Release - Team Fortress 2|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
