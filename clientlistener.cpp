@@ -30,12 +30,12 @@
 ClientListener g_hClientListener;
 
 
-#if SOURCE_ENGINE < 10
+#if SOURCE_ENGINE < SE_LEFT4DEAD
 	SH_DECL_HOOK2_void(INetChannelHandler, FileReceived, SH_NOATTRIB, 0, const char *, unsigned int);
 	SH_DECL_HOOK2_void(INetChannelHandler, FileRequested, SH_NOATTRIB, 0, const char *, unsigned int);
 	SH_DECL_HOOK2_void(INetChannelHandler, FileDenied, SH_NOATTRIB, 0, const char *, unsigned int);
 
-	#if SOURCE_ENGINE > 3
+	#if SOURCE_ENGINE > SE_ORANGEBOX
 		SH_DECL_HOOK2_void(INetChannelHandler, FileSent, SH_NOATTRIB, 0, const char *, unsigned int);
 	#endif
 #else
@@ -45,6 +45,15 @@ ClientListener g_hClientListener;
 	SH_DECL_HOOK3_void(INetChannelHandler, FileSent, SH_NOATTRIB, 0, const char *, unsigned int, bool);
 #endif
 
+
+ClientListener::ClientListener()
+{
+	m_IsHooked = false;
+	m_FRequestedHookID = 0;
+	m_FReceivedHookID = 0;
+	m_FDeniedHookID = 0;
+	m_FSentHookID = 0;
+}
 
 
 /*
@@ -57,6 +66,9 @@ ClientListener g_hClientListener;
  */
 bool ClientListener::InterceptClientConnect(int client, char *error, size_t maxlength)
 {
+	if (m_IsHooked)
+		return true;
+
 	INetChannel *pNetChan = static_cast<INetChannel *>(engine->GetPlayerNetInfo(client));
 
 	// Add all hooks
@@ -64,13 +76,15 @@ bool ClientListener::InterceptClientConnect(int client, char *error, size_t maxl
 	{
 		INetChannelHandler *handler = pNetChan->GetMsgHandler();
 
-		SH_ADD_HOOK(INetChannelHandler, FileRequested, handler, SH_MEMBER(this, &ClientListener::FileRequested), false);
-		SH_ADD_HOOK(INetChannelHandler, FileReceived, handler, SH_MEMBER(this, &ClientListener::FileReceived), false);
-		SH_ADD_HOOK(INetChannelHandler, FileDenied, handler, SH_MEMBER(this, &ClientListener::FileDenied), false);
+		m_FRequestedHookID = SH_ADD_VPHOOK(INetChannelHandler, FileRequested, handler, SH_MEMBER(this, &ClientListener::FileRequested), false);
+		m_FReceivedHookID = SH_ADD_VPHOOK(INetChannelHandler, FileReceived, handler, SH_MEMBER(this, &ClientListener::FileReceived), false);
+		m_FDeniedHookID = SH_ADD_VPHOOK(INetChannelHandler, FileDenied, handler, SH_MEMBER(this, &ClientListener::FileDenied), false);
 
-		#if SOURCE_ENGINE > 3
-			SH_ADD_HOOK(INetChannelHandler, FileSent, handler, SH_MEMBER(this, &ClientListener::FileSent), false);
+		#if SOURCE_ENGINE > SE_ORANGEBOX
+			m_FSentHookID = SH_ADD_VPHOOK(INetChannelHandler, FileSent, handler, SH_MEMBER(this, &ClientListener::FileSent), false);
 		#endif
+
+		m_IsHooked = true;
 	}
 
 	/* Allow to connect */
@@ -78,52 +92,54 @@ bool ClientListener::InterceptClientConnect(int client, char *error, size_t maxl
 }
 
 
-
-/**
- * Called when a client is disconnecting (not fully disconnected yet).
- *
- * @param client    Index of the client.
- */
-void ClientListener::OnClientDisconnecting(int client)
+void ClientListener::Shutdown()
 {
-	INetChannel *pNetChan = static_cast<INetChannel *>(engine->GetPlayerNetInfo(client));
-
-	// Remove all hooks again
-	if (pNetChan != NULL)
+	if (m_IsHooked)
 	{
-		INetChannelHandler *handler = pNetChan->GetMsgHandler();
+		// Unhook all.
+		SH_REMOVE_HOOK_ID(m_FRequestedHookID);
+		SH_REMOVE_HOOK_ID(m_FReceivedHookID);
+		SH_REMOVE_HOOK_ID(m_FDeniedHookID);
+		SH_REMOVE_HOOK_ID(m_FSentHookID);
 
-		SH_REMOVE_HOOK(INetChannelHandler, FileRequested, handler, SH_MEMBER(this, &ClientListener::FileRequested), false);
-		SH_REMOVE_HOOK(INetChannelHandler, FileReceived, handler, SH_MEMBER(this, &ClientListener::FileReceived), false);
-		SH_REMOVE_HOOK(INetChannelHandler, FileDenied, handler, SH_MEMBER(this, &ClientListener::FileDenied), false);
-
-		#if SOURCE_ENGINE > 3
-			SH_REMOVE_HOOK(INetChannelHandler, FileSent, handler, SH_MEMBER(this, &ClientListener::FileSent), false);
-		#endif
+		m_IsHooked = false;
 	}
 }
 
 
-
-#if SOURCE_ENGINE < 10
+#if SOURCE_ENGINE < SE_LEFT4DEAD
 void ClientListener::FileRequested(const char *fileName, unsigned int transferID)
 #else
 void ClientListener::FileRequested(const char *fileName, unsigned int transferID, bool isReplayDemoFile)
 #endif
 {
+	IClient *pClient = META_IFACEPTR(IClient);
+
+	cell_t result = Pl_Continue;
+	g_hRequested->PushCell(pClient->GetPlayerSlot() + 1);
 	g_hRequested->PushString(fileName);
 	g_hRequested->PushCell(transferID);
 
-	g_hRequested->Execute(NULL);
+	g_hRequested->Execute(&result);
+
+	if (result == Pl_Stop)
+	{
+		pClient->GetNetChannel()->DenyFile(fileName, transferID);
+
+		RETURN_META(MRES_SUPERCEDE);
+	}
 }
 
 
-#if SOURCE_ENGINE < 10
+#if SOURCE_ENGINE < SE_LEFT4DEAD
 void ClientListener::FileReceived(const char *fileName, unsigned int transferID)
 #else
 void ClientListener::FileReceived(const char *fileName, unsigned int transferID, bool isReplayDemoFile)
 #endif
 {
+	IClient *pClient = META_IFACEPTR(IClient);
+
+	g_hReceived->PushCell(pClient->GetPlayerSlot() + 1);
 	g_hReceived->PushString(fileName);
 	g_hReceived->PushCell(transferID);
 
@@ -131,12 +147,15 @@ void ClientListener::FileReceived(const char *fileName, unsigned int transferID,
 }
 
 
-#if SOURCE_ENGINE < 10
+#if SOURCE_ENGINE < SE_LEFT4DEAD
 void ClientListener::FileDenied(const char *fileName, unsigned int transferID)
 #else
 void ClientListener::FileDenied(const char *fileName, unsigned int transferID, bool isReplayDemoFile)
 #endif
 {
+	IClient *pClient = META_IFACEPTR(IClient);
+
+	g_hDenied->PushCell(pClient->GetPlayerSlot() + 1);
 	g_hDenied->PushString(fileName);
 	g_hDenied->PushCell(transferID);
 
@@ -144,12 +163,15 @@ void ClientListener::FileDenied(const char *fileName, unsigned int transferID, b
 }
 
 
-#if SOURCE_ENGINE < 10
+#if SOURCE_ENGINE < SE_LEFT4DEAD
 void ClientListener::FileSent(const char *fileName, unsigned int transferID)
 #else
 void ClientListener::FileSent(const char *fileName, unsigned int transferID, bool isReplayDemoFile)
 #endif
 {
+	IClient *pClient = META_IFACEPTR(IClient);
+
+	g_hSent->PushCell(pClient->GetPlayerSlot() + 1);
 	g_hSent->PushString(fileName);
 	g_hSent->PushCell(transferID);
 

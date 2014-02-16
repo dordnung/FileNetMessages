@@ -13,40 +13,45 @@
 
 
 /**
- * Called when a file was received
+ * Called when a file was received from a client to the server.
  * Was fired when requesting a file and it doesn't exist and was succesfulled downloaded.
  *
+ * @param client          Client index.
  * @param file            File that was received.
  * @param transferID      transfer ID.
  */
-forward FNM_OnFileReceived(const String:file[], transferID);
+forward FNM_OnFileReceived(client, const String:file[], transferID);
 
 /**
- * Called when a file was requested.
- * Was never fired :/
+ * Called when a client requests a file from the server.
  *
+ * @param client          Client index.
  * @param file            File that was requested.
  * @param transferID      transfer ID.
+ *
+ * @return                Plugin_Stop to deny the request, Plugin_Continue otherwise.
  */
-forward FNM_OnFileRequested(const String:file[], transferID);
+forward Action:FNM_OnFileRequested(client, const String:file[], transferID);
 
 /**
- * Called when a file was denied.
+ * Called when a client denies a file request from the server.
  * Was fired when requesting a file, but filed doesn't exist.
  *
+ * @param client          Client index.
  * @param file            File that was denied.
  * @param transferID      transfer ID.
  */
-forward FNM_OnFileDenied(const String:file[], transferID);
+forward FNM_OnFileDenied(client, const String:file[], transferID);
 
 /**
- * Called when a file was sent
+ * Called when a file was sent to a client.
  * Was never fired :/
  *
+ * @param client          Client index.
  * @param file            File that was sent.
  * @param transferID      transfer ID.
  */
-forward FNM_OnFileSent(const String:file[], transferID);
+forward FNM_OnFileSent(client, const String:file[], transferID);
 
 
 
@@ -58,7 +63,7 @@ forward FNM_OnFileSent(const String:file[], transferID);
  * @param file            File to send.
  * @param ...             Variable number of format parameters.
  *
- * @return                True on success, otherwise false.
+ * @return                TransferID on success, otherwise 0.
  */
 native FNM_SendFile(client, const String:file[], any:...);
 
@@ -71,7 +76,7 @@ native FNM_SendFile(client, const String:file[], any:...);
  * @param file            File to request.
  * @param ...             Variable number of format parameters.
  *
- * @return                True on success, otherwise false.
+ * @return                TransferID of the request.
  */
 native FNM_RequestFile(client, const String:file[], any:...);
 

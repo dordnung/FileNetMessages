@@ -30,11 +30,13 @@
 #include "extension.h"
 #include <inetchannel.h>
 #include <inetmsghandler.h>
+#include <iclient.h>
 
 
 class ClientListener : public IClientListener
 {
 public:
+	ClientListener();
 	/**
 	 * Called when a client requests connection.
 	 *
@@ -44,17 +46,10 @@ public:
 	 * @return             True to allow client, false to reject.
 	 */
 	virtual bool InterceptClientConnect(int client, char *error, size_t maxlength);
-
-
-	/**
-	 * Called when a client is disconnecting (not fully disconnected yet).
-	 *
-	 * @param client    Index of the client.
-	 */
-	virtual void OnClientDisconnecting(int client);
+	void Shutdown();
 
 public:
-	#if SOURCE_ENGINE < 10
+	#if SOURCE_ENGINE < SE_LEFT4DEAD
 		void FileRequested(const char *fileName, unsigned int transferID);
 		void FileReceived(const char *fileName, unsigned int transferID);
 		void FileDenied(const char *fileName, unsigned int transferID);
@@ -65,6 +60,13 @@ public:
 		void FileDenied(const char *fileName, unsigned int transferID, bool isReplayDemoFile);
 		void FileSent(const char *fileName, unsigned int transferID, bool isReplayDemoFile);
 	#endif
+
+private:
+	bool m_IsHooked;
+	int m_FRequestedHookID;
+	int m_FReceivedHookID;
+	int m_FDeniedHookID;
+	int m_FSentHookID;
 };
 
 
