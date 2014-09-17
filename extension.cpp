@@ -28,8 +28,6 @@
 #include "clientlistener.h"
 
 
-int g_iTransferID = 0;
-
 IForward* g_hReceived;
 IForward* g_hRequested;
 IForward* g_hDenied;
@@ -67,10 +65,10 @@ bool FileNetMessagesExtension::SDK_OnLoad(char *error, size_t err_max, bool late
 	sharesys->AddNatives(myself, filenetmessages_natives);
 
 	/* Add the forwards */
-	g_hReceived = forwards->CreateForward("FNM_OnFileReceived", ET_Ignore, 2, NULL, Param_String, Param_Cell);
-	g_hRequested = forwards->CreateForward("FNM_OnFileRequested", ET_Ignore, 2, NULL, Param_String, Param_Cell);
-	g_hDenied = forwards->CreateForward("FNM_OnFileDenied", ET_Ignore, 2, NULL, Param_String, Param_Cell);
-	g_hSent = forwards->CreateForward("FNM_OnFileSent", ET_Ignore, 2, NULL, Param_String, Param_Cell);
+	g_hReceived = forwards->CreateForward("FNM_OnFileReceived", ET_Ignore, 3, NULL, Param_Cell, Param_String, Param_Cell);
+	g_hRequested = forwards->CreateForward("FNM_OnFileRequested", ET_Event, 3, NULL, Param_Cell, Param_String, Param_Cell);
+	g_hDenied = forwards->CreateForward("FNM_OnFileDenied", ET_Ignore, 3, NULL, Param_Cell, Param_String, Param_Cell);
+	g_hSent = forwards->CreateForward("FNM_OnFileSent", ET_Ignore, 3, NULL, Param_Cell, Param_String, Param_Cell);
 
 	/* Now register the extension */
 	sharesys->RegisterLibrary(myself, "filenetmessages");
@@ -94,6 +92,8 @@ void FileNetMessagesExtension::SDK_OnUnload()
 	forwards->ReleaseForward(g_hRequested);
 	forwards->ReleaseForward(g_hDenied);
 	forwards->ReleaseForward(g_hSent);
+
+	g_hClientListener.Shutdown();
 }
 
 
@@ -119,11 +119,12 @@ cell_t FileNetMessages_SendFile(IPluginContext *pContext, const cell_t *params)
 		return pContext->ThrowNativeError("Client %i has no valid NetChannel!", client);
 	}
 
+	static unsigned int transferID = 0;
 
-	#if SOURCE_ENGINE < 15
-		return pNetChan->SendFile(path, ++g_iTransferID);
+	#if SOURCE_ENGINE < SE_CSGO
+		return pNetChan->SendFile(path, ++transferID) ? transferID : 0;
 	#else
-		return pNetChan->SendFile(path, ++g_iTransferID, false);
+		return pNetChan->SendFile(path, ++transferID, false) ? transferID : 0;
 	#endif
 }
 
@@ -150,7 +151,7 @@ cell_t FileNetMessages_RequestFile(IPluginContext *pContext, const cell_t *param
 		return pContext->ThrowNativeError("Client %i has no valid NetChannel!", client);
 	}
 
-	#if SOURCE_ENGINE < 15
+	#if SOURCE_ENGINE < SE_CSGO
 		return pNetChan->RequestFile(path);
 	#else
 		return pNetChan->RequestFile(path, false);
