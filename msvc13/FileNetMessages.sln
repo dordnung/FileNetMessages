@@ -13,7 +13,6 @@ Global
 		Release - Left 4 Dead 2|Win32 = Release - Left 4 Dead 2|Win32
 		Release - Left 4 Dead|Win32 = Release - Left 4 Dead|Win32
 		Release - Orange Box|Win32 = Release - Orange Box|Win32
-		Release - Orangebox Valve|Win32 = Release - Orangebox Valve|Win32
 		Release - Team Fortress 2|Win32 = Release - Team Fortress 2|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
@@ -33,8 +32,6 @@ Global
 		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Left 4 Dead|Win32.Build.0 = Release - Left 4 Dead|Win32
 		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Orange Box|Win32.ActiveCfg = Release - Orange Box|Win32
 		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Orange Box|Win32.Build.0 = Release - Orange Box|Win32
-		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Orangebox Valve|Win32.ActiveCfg = Release - Orangebox Valve|Win32
-		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Orangebox Valve|Win32.Build.0 = Release - Orangebox Valve|Win32
 		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Team Fortress 2|Win32.ActiveCfg = Release - Team Fortress 2|Win32
 		{F35CF30D-5C8E-4A95-9F8C-E5A80A124432}.Release - Team Fortress 2|Win32.Build.0 = Release - Team Fortress 2|Win32
 	EndGlobalSection

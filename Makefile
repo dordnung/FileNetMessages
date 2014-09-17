@@ -5,8 +5,8 @@
 ### EDIT THESE PATHS FOR YOUR OWN SETUP ###
 ###########################################
 
-SMSDK = ../../sourcemod-central
-HL2SDK_ORIG = ../../hl2sdk
+SMSDK = ../../sourcemod-1.6
+HL2SDK_ORIG = ../../hl2sdk-episode1
 HL2SDK_OB = ../../hl2sdk-ob
 HL2SDK_CSS = ../../hl2sdk-css
 HL2SDK_HL2DM = ../../hl2sdk-hl2dm
@@ -15,7 +15,7 @@ HL2SDK_TF2 = ../../hl2sdk-tf2
 HL2SDK_L4D = ../../hl2sdk-l4d
 HL2SDK_L4D2 = ../../hl2sdk-l4d2
 HL2SDK_CSGO = ../../hl2sdk-csgo
-MMSOURCE110 = ../../mmsource-central
+MMSOURCE = ../../mmsource-1.10
 
 #####################################
 ### EDIT BELOW FOR OTHER PROJECTS ###
@@ -130,10 +130,10 @@ HL2PUB = $(HL2SDK)/public
 
 ifeq "$(ENGINE)" "original"
 	INCLUDE += -I$(HL2SDK)/public/dlls
-	METAMOD = $(MMSOURCE110)/core-legacy
+	METAMOD = $(MMSOURCE)/core-legacy
 else
 	INCLUDE += -I$(HL2SDK)/public/game/server
-	METAMOD = $(MMSOURCE110)/core
+	METAMOD = $(MMSOURCE)/core
 endif
 
 INCLUDE += -I. -I.. -Isdk -Ipublic -Ilisteners -I$(SMSDK)/public -I$(SMSDK)/public/sourcepawn
