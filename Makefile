@@ -7,7 +7,7 @@
 
 SMSDK = ../../sourcemod-1.6
 HL2SDK_ORIG = ../../hl2sdk-episode1
-HL2SDK_OB = ../../hl2sdk-ob
+HL2SDK_OB = ../../hl2sdk-orangebox
 HL2SDK_CSS = ../../hl2sdk-css
 HL2SDK_HL2DM = ../../hl2sdk-hl2dm
 HL2SDK_DODS = ../../hl2sdk-dods
