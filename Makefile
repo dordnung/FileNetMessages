@@ -141,7 +141,7 @@ INCLUDE += -I. -I.. -Isdk -Ipublic -Ilisteners -I$(SMSDK)/public -I$(SMSDK)/publ
 ifeq "$(USEMETA)" "true"
 	LINK_HL2 = $(HL2LIB)/tier1_i486.a $(LIB_PREFIX)vstdlib$(LIB_SUFFIX) $(LIB_PREFIX)tier0$(LIB_SUFFIX)
 	ifeq "$(ENGINE)" "csgo"
-		LINK_HL2 += $(HL2LIB)/interfaces_i486.a
+		LINK_HL2 += $(HL2LIB)/interfaces_i486.a -lstdc++
 	endif
 
 	LINK += $(LINK_HL2)
