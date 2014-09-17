@@ -124,7 +124,11 @@ void ClientListener::FileRequested(const char *fileName, unsigned int transferID
 
 	if (result == Pl_Stop)
 	{
-		pClient->GetNetChannel()->DenyFile(fileName, transferID);
+		#if SOURCE_ENGINE < SE_CSGO
+			pClient->GetNetChannel()->DenyFile(fileName, transferID);
+		#else
+			pClient->GetNetChannel()->DenyFile(fileName, transferID, false);
+		#endif
 
 		RETURN_META(MRES_SUPERCEDE);
 	}
