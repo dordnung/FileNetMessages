@@ -41,7 +41,7 @@
 #define SMEXT_CONF_NAME			"File Net Messages"
 #define SMEXT_CONF_DESCRIPTION	"Sending and receiving files via NetMessage"
 #define SMEXT_CONF_VERSION		"0.0.2"
-#define SMEXT_CONF_AUTHOR		"Popoklopsi"
+#define SMEXT_CONF_AUTHOR		"dordnung"
 #define SMEXT_CONF_URL			""
 #define SMEXT_CONF_LOGTAG		"FileNetMessages"
 #define SMEXT_CONF_LICENSE		"GPL"

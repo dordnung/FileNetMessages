@@ -1,13 +1,12 @@
 /**
  * -----------------------------------------------------
  * File        clientlistener.h
- * Authors     David <popoklopsi> Ordnung
+ * Authors     David Ordnung
  * License     GPLv3
- * Web         http://popoklopsi.de
+ * Web         http://dordnung.de
  * -----------------------------------------------------
  * 
- * 
- * Copyright (C) 2014 David <popoklopsi> Ordnung
+ * Copyright (C) 2014 David Ordnung
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
