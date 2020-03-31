@@ -36,15 +36,8 @@ class ClientListener : public IClientListener
 {
 public:
 	ClientListener();
-	/**
-	 * Called when a client requests connection.
-	 *
-	 * @param client       Index of the client.
-	 * @param error        Error buffer for a disconnect reason.
-	 * @param maxlength    Maximum length of error buffer.
-	 * @return             True to allow client, false to reject.
-	 */
-	virtual bool InterceptClientConnect(int client, char *error, size_t maxlength);
+
+	virtual void OnClientConnected(int client);
 	void Shutdown();
 
 public:

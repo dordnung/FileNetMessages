@@ -63,10 +63,10 @@ ClientListener::ClientListener()
  * @param maxlength    Maximum length of error buffer.
  * @return             True to allow client, false to reject.
  */
-bool ClientListener::InterceptClientConnect(int client, char *error, size_t maxlength)
+void ClientListener::OnClientConnected(int client)
 {
 	if (m_IsHooked)
-		return true;
+		return;
 
 	INetChannel *pNetChan = static_cast<INetChannel *>(engine->GetPlayerNetInfo(client));
 
@@ -85,9 +85,6 @@ bool ClientListener::InterceptClientConnect(int client, char *error, size_t maxl
 
 		m_IsHooked = true;
 	}
-
-	/* Allow to connect */
-	return true;
 }
 
 
